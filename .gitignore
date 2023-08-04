@@ -1,3 +1,4 @@
+/.ideagit rm -r -f --cached .
 # Logs
 logs
 *.log
