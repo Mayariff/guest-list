@@ -1,7 +1,7 @@
 import { apiSlice } from "../users/apiSlice"
 import { TInfoVisitor, TVisitors } from "../api"
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query"
-import { createTags } from "../api/utilities"
+import { createTags } from "../api"
 
 export const visitorsApiSlice = apiSlice.injectEndpoints({
   tagTypes: ["visitor"],
