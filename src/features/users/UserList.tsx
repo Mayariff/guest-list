@@ -49,3 +49,10 @@ const UserList = () => {
 }
 
 export default UserList
+
+type Tprops ={
+  user
+}
+const UserItem=()=>{
+
+}

@@ -5,6 +5,7 @@ import User from "../features/users/User"
 import VisitorsPage from "../features/visitors/VisitorsPage"
 import React from "react"
 import { ErrorPage } from "../common"
+import UserPage from "../features/users/UserPage";
 
 export enum PATH {
   users = "users",
@@ -19,7 +20,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: PATH.users,
-        element: <UserList />,
+        element: <UserPage />,
       },
       {
         path: "/users/:userID",
