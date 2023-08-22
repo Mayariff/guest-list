@@ -4,14 +4,9 @@ import {
   retry,
 } from "@reduxjs/toolkit/dist/query/react"
 import { createEntityAdapter } from "@reduxjs/toolkit"
-import {
-  createTag,
-  createTags,
-  TGetParams,
-  TNormalizedRes,
-  TUser,
-} from "../api"
 import { changeUsersInCash } from "./utilities"
+import { createTag, createTags } from "../api"
+import { TGetParams, TNormalizedRes, TUser } from "./types"
 
 const apiAdapter = createEntityAdapter()
 
@@ -25,7 +20,7 @@ export const apiSlice = createApi({
   tagTypes: ["user"],
   endpoints: (builder) => ({
     getUsers: builder.query<TNormalizedRes<TUser>, TGetParams>({
-      query: (params: TGetParams = { page: 1, limit: 13 }) => ({
+      query: (params: TGetParams = { page: 1, limit: 100 }) => ({
         url: "users",
         params: {
           _page: params.page,

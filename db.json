@@ -83,27 +83,29 @@
       "first_name": "Rachel",
       "last_name": "Howell",
       "avatar": "https://reqres.in/img/faces/12-image.jpg"
-    },
-    {
-      "id": 171,
-      "email": "george.bluth@reqres.in",
-      "first_name": "G",
-      "last_name": "Bluth",
-      "avatar": "hdvf"
     }
   ],
   "come_event": {
     "come_event": [
+      1,
+      10,
       4,
-      5,
-      3,
-      10
+      2
     ]
   },
   "skip_event": {
     "skip_event": [
+      9,
+      7
+    ]
+  },
+  "wait_answer": {
+    "wait_answer": [
       5,
-      6
+      6,
+      3,
+      8,
+      11
     ]
   }
 }

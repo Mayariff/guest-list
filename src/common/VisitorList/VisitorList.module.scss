@@ -1,0 +1,22 @@
+.container{
+  border: 1px solid black;
+  margin: 10px 20px;
+  //width: 350px;
+  background-color: red;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  .itemsAria{
+    border: 1px solid black;
+    height: 100%;
+    width: 100%;
+    .item{
+      cursor: grab;
+      border: 1px solid black;
+      list-style-type: none;
+    }
+  }
+}

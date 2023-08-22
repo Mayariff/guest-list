@@ -1,36 +1,60 @@
 import { useChangeVisitorsMutation, useGetVisitorsQuery } from "./visitorsSlice"
+import { useMemo } from "react"
+import { TUser } from "../api"
+import { status } from "./types"
 
-export const useDeleteVisitor = (param: TInfoVisitor<number>) => {
+export const useDeleteVisitor = () => {
   const { data } = useGetVisitorsQuery()
-  const newData =
-    typeof data !== "undefined"
-      ? data[param.status].filter((el) => param.data !== el)
-      : []
   let res = useChangeVisitorsMutation()
   let [func, rest] = res
-  const arg = {
-    status: param.status,
-    data: newData,
+  const deleteHandler = (arg: { status: status; id: number }) => {
+    const newData =
+      typeof data !== "undefined"
+        ? data[arg.status].filter((el) => arg.id !== el)
+        : []
+
+    const argum = {
+      status: arg.status,
+      data: newData,
+    }
+    return func(argum)
   }
-  const deleteHandler = () => func(arg)
+
   return [deleteHandler, rest]
 }
 
-export const useAddVisitor = (param: TInfoVisitor<number>) => {
+export const useAddVisitor = () => {
   const { data } = useGetVisitorsQuery()
-  let newData
-  if (typeof data !== "undefined") {
-    const set = new Set(data[param.status])
-    set.add(param.data)
-    newData = [...set]
-  }
   let res = useChangeVisitorsMutation()
   let [func, rest] = res
-  const arg = {
-    status: param.status,
-    data: newData,
-  }
-  const addHandler = () => func(arg)
+  const addHandler = (arg: { status: status; id: number; index?: number }) => {
+    let newData
+    if (typeof data !== "undefined") {
+      if (arg.index > -1) {
+        newData = [...data[arg.status]]
+        newData.splice(arg.index, 0, arg.id)
+      } else {
+        const set = new Set(data[arg.status])
+        set.add(arg.id)
+        newData = [...set]
+      }
+    }
 
+    const argum = {
+      status: arg.status,
+      data: newData,
+    }
+    return func(argum)
+  }
   return [addHandler, rest]
+}
+
+export const useSelectedUsers = (
+  statusArray: number[],
+  users: TUser[],
+): TUser[] => {
+  return useMemo(
+    () => statusArray.map((u) => users.entities[u]),
+    [statusArray, users],
+  )
 }
