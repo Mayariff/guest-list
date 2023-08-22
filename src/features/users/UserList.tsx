@@ -4,13 +4,14 @@ import {
   useDeleteUserMutation,
   useGetUsersQuery,
 } from "./apiSlice"
-import { status } from "../api"
+
 import { useAddVisitor } from "../visitors/apiVisitorsHooks"
 import { useGetVisitorsQuery } from "../visitors/visitorsSlice"
+import { status } from "../visitors/types"
 
 const UserList = () => {
   const { data } = useGetUsersQuery()
-  const { data: visitirs } = useGetVisitorsQuery()
+  const { data: visitors } = useGetVisitorsQuery()
   const [addHandler] = useAddVisitor({
     status: status.visit as status,
     data: 10,
