@@ -1,6 +1,7 @@
 export type TVisitors = {
   come_event: number[]
   skip_event: number[]
+  wait_answer: number[]
 }
 
 export enum status {
@@ -12,4 +13,4 @@ export type TInfoVisitor<T extends number | number[]> = {
   data: T
   status: status
 }
-export type Tboards = status[keyof typeof status] //для dnd  досок используем названия статусов из enum
+export type Tstatus = status[keyof typeof status] //для dnd  досок используем названия статусов из enum

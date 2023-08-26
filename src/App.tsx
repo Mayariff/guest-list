@@ -3,11 +3,11 @@ import { PATH } from "./router"
 
 function App() {
   return (
-    <div>
+    <>
       <Link to={PATH.users}>Users</Link>
       <Link to={PATH.visitors}>Visitors</Link>
       <Outlet />
-    </div>
+    </>
   )
 }
 

@@ -1,14 +1,14 @@
 import React from "react"
 import s from "./VisitorList.module.scss"
-import { TUser } from "../../features/users/types"
-import { Tboards } from "../../features/visitors/types"
+import { TUser } from "../../users/types"
+import { Tstatus } from "../types"
 
 type TProps = {
   items: TUser[]
   title: string
-  board: Tboards
-  handleDrag: (params: { item: TUser; board: Tboards }) => void
-  handleDrop: (params: { item: TUser; board: Tboards }) => void
+  board: Tstatus
+  handleDrag: (params: { item: TUser; board: Tstatus }) => void
+  handleDrop: (params: { item: TUser; board: Tstatus }) => void
 }
 const VisitorList = ({
   items,
@@ -18,7 +18,7 @@ const VisitorList = ({
   handleDrop,
 }: TProps) => {
   return (
-    <div className={s.container}>
+    <div className={s.container} onDragOver={(e) => e.preventDefault()}>
       <div>{title}</div>
       <ol className={s.itemsAria}>
         {items.map((i) => (
@@ -37,9 +37,9 @@ const VisitorList = ({
 
 type TvisitorProps = {
   item: TUser
-  board: Tboards
-  handleDrag: (params: { item: TUser; board: Tboards }) => void
-  handleDrop: (params: { item: TUser; board: Tboards }) => void
+  board: Tstatus
+  handleDrag: (params: { item: TUser; board: Tstatus }) => void
+  handleDrop: (params: { item: TUser; board: Tstatus }) => void
 }
 
 const VisitorItem = ({

@@ -1,15 +1,11 @@
-import React, { useMemo, useState } from "react"
+import React, {useState} from "react"
 
-import { TUser, TVisitors } from "../api"
-import { useGetVisitorsQuery } from "./visitorsSlice"
-import { useGetUsersQuery } from "../users"
-import { Error, Loading, VisitorList } from "../../common"
-import {
-  useAddVisitor,
-  useDeleteVisitor,
-  useSelectedUsers,
-} from "./apiVisitorsHooks"
-import { status, Tboards } from "./types"
+import {TUser, TVisitors} from "../api"
+import {useGetVisitorsQuery} from "./visitorsSlice"
+import {useGetUsersQuery} from "../users"
+import {Error, Loading, VisitorList} from "../../common"
+import {useAddVisitor, useDeleteVisitor, useSelectedUsers,} from "./apiVisitorsHooks"
+import {status, Tstatus} from "./types"
 
 const VisitorsPage = () => {
   const {
@@ -18,7 +14,11 @@ const VisitorsPage = () => {
     isSuccess: isSuccessUsers,
     isError: isErrorInUsers,
     error: errorInUsers,
-  } = useGetUsersQuery<TUser[]>()
+  } = useGetUsersQuery<TUser[]>(/*{
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+    refetchOnMountOrArgChange:true
+  }*/)
 
   const {
     data = { come_event: [], skip_event: [], wait_answer: [] },
@@ -26,7 +26,10 @@ const VisitorsPage = () => {
     isSuccess,
     isError,
     error,
-  } = useGetVisitorsQuery<TVisitors>()
+  } = useGetVisitorsQuery<TVisitors>({
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  })
 
   const [deleteHandler] = useDeleteVisitor()
   const [addHandler] = useAddVisitor()
@@ -36,11 +39,11 @@ const VisitorsPage = () => {
   const waitingUsers = useSelectedUsers(data.wait_answer, usersData)
 
   //DnD
-  const [curBoard, setCurBoard] = useState<Tboards>(null as Tboards)
+  const [curBoard, setCurBoard] = useState<Tstatus>(null as Tstatus)
   const [users, setUsers] = useState<TUser[]>(null as TUser[])
   const [user, setUser] = useState<TUser>(null as TUser)
 
-  const handleDrag = ({ item, board }: { item: TUser; board: Tboards }) => {
+  const handleDrag = ({ item, board }: { item: TUser; board: Tstatus }) => {
     setUser(item)
     setUsers((u) => {
       if (board == status.skip) return skipUsers
@@ -50,7 +53,7 @@ const VisitorsPage = () => {
     setCurBoard(board)
   }
 
-  const handleDrop = ({ item, board }: { item: TUser; board: Tboards }) => {
+  const handleDrop = ({ item, board }: { item: TUser; board: Tstatus }) => {
     //в рамках одной доски
     if (board === curBoard) {
       const curIndex = users.indexOf(user)

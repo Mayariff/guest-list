@@ -1,20 +1,22 @@
 import { useChangeVisitorsMutation, useGetVisitorsQuery } from "./visitorsSlice"
 import { useMemo } from "react"
 import { TUser } from "../api"
-import { status } from "./types"
+import { Tstatus } from "./types"
+import { findStatus } from "./utilities"
 
 export const useDeleteVisitor = () => {
   const { data } = useGetVisitorsQuery()
   let res = useChangeVisitorsMutation()
   let [func, rest] = res
-  const deleteHandler = (arg: { status: status; id: number }) => {
+  const deleteHandler = (arg: { status?: Tstatus; id: number }) => {
+    const curStatus = arg.status ? arg.status : findStatus(data, arg.id)
     const newData =
       typeof data !== "undefined"
-        ? data[arg.status].filter((el) => arg.id !== el)
+        ? data[curStatus].filter((el) => arg.id !== el)
         : []
 
     const argum = {
-      status: arg.status,
+      status: curStatus,
       data: newData,
     }
     return func(argum)
