@@ -1,9 +1,11 @@
-import { TUser } from "../../features/users/types"
+import { TUser } from "../../features/users";
+
 
 export enum actionStatus {
   ok = "Success",
   formError = "Sorry. Form not submitted",
   commonError = "Something went wrong",
+  loading = "Loading",
 }
 
 //del Modal

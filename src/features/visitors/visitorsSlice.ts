@@ -1,7 +1,7 @@
 import { apiSlice } from "../users/apiSlice"
 
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query"
-import { createTag, createTags } from "../api"
+import { createTag, createTags } from "../../helpers"
 import { TInfoVisitor, TVisitors } from "./types"
 
 export const visitorsApiSlice = apiSlice.injectEndpoints({
@@ -40,6 +40,3 @@ export const visitorsApiSlice = apiSlice.injectEndpoints({
     }),
   }),
 })
-
-export const { useGetVisitorsQuery, useChangeVisitorsMutation } =
-  visitorsApiSlice

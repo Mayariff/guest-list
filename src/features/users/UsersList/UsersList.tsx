@@ -1,42 +1,55 @@
-import React, { useState } from "react"
+import React, { memo, useCallback, useDeferredValue, useState } from "react"
+import { TUser } from "../types"
+import s from "./UsersList.module.scss"
+import { useDeleteVisitor } from "../../visitors"
+import { ModalDelete, ModalUser, SearchInput } from "../../../common"
+import { Link } from "react-router-dom"
 import {
   useAddUserMutation,
   useDeleteUserMutation,
   useGetUsersQuery,
-} from "../apiSlice"
-import { TUser } from "../types"
-import s from "./UserList.module.scss"
-import { Link } from "react-router-dom"
-import { useDeleteVisitor } from "../../visitors"
-import { ModalDelete, ModalUser } from "../../../common"
+} from "../index"
 
-const UserList = () => {
-  const { data } = useGetUsersQuery()
+const UsersList = () => {
   const [addUser] = useAddUserMutation()
   const [deleteUser] = useDeleteUserMutation()
   const [deleteHandler] = useDeleteVisitor()
+
+  //search Input
+  const [value, setValue] = useState<string>("")
+  const deferredValue = useDeferredValue(value)
+  const onChangeHandler = useCallback(
+    (value: string) => setValue((prev) => value),
+    [],
+  )
+
+  const { data } = useGetUsersQuery(deferredValue)
 
   //DnD
   const [id, setId] = useState<(typeof data.ids)[number]>(
     null as (typeof data.ids)[number],
   )
-  const handleDrag = (id: (typeof data.ids)[number]) => setId(id)
-  const deleteItem = async () => {
+  const handleDrag = useCallback(
+    (id: (typeof data.ids)[number]) => setId((prev) => id),
+    [],
+  )
+  const deleteItem = useCallback(async () => {
     await deleteUser(id)
     deleteHandler({ id: id })
-  }
+  }, [id])
   //modal Add user
   const [showModal, setShowModal] = useState<boolean>(false)
-  const openModal = () => setShowModal(true)
-  const closeModal = () => setShowModal(false)
-
+  const openModal = useCallback(() => setShowModal((prev) => true), [])
+  const closeModal = useCallback(() => setShowModal((prev) => false), [])
   //modal Delete user
   const [showDelModal, setDelShowModal] = useState<boolean>(false)
-  const openDelModal = () => setDelShowModal(true)
-  const closeDelModal = () => setDelShowModal(false)
+
+  const openDelModal = useCallback(() => setDelShowModal((prev) => true), [])
+  const closeDelModal = useCallback(() => setDelShowModal((prev) => false), [])
 
   return (
     <div>
+      <SearchInput value={value} onChangeHandler={onChangeHandler} />
       <ol>
         {data?.ids.map((u) => (
           <UserItem key={u} user={data.entities[u]} handleDrag={handleDrag} />
@@ -61,14 +74,14 @@ const UserList = () => {
   )
 }
 
-export default UserList
+export default UsersList
 
 type Tprops = {
   user: TUser
   handleDrag: (id: string) => void
-  handleDrop: (id: string) => void
+  //handleDrop: (id: string) => void
 }
-const UserItem = ({ user, handleDrag, handleDrop }: Tprops) => {
+const UserItem = memo(({ user, handleDrag }: Tprops) => {
   const { first_name, last_name, id } = user
   const dragStartHandler = (e, id) => handleDrag(id)
 
@@ -84,4 +97,4 @@ const UserItem = ({ user, handleDrag, handleDrop }: Tprops) => {
       </Link>
     </li>
   )
-}
+})

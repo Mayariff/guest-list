@@ -1,8 +1,10 @@
-import { useChangeVisitorsMutation, useGetVisitorsQuery } from "./visitorsSlice"
 import { useMemo } from "react"
-import { TUser } from "../api"
-import { Tstatus } from "./types"
 import { findStatus } from "./utilities"
+import {
+  Tstatus,
+  useChangeVisitorsMutation,
+  useGetVisitorsQuery,
+} from "./index"
 
 export const useDeleteVisitor = () => {
   const { data } = useGetVisitorsQuery()
@@ -11,15 +13,15 @@ export const useDeleteVisitor = () => {
   const deleteHandler = (arg: { status?: Tstatus; id: number }) => {
     const curStatus = arg.status ? arg.status : findStatus(data, arg.id)
     const newData =
-      typeof data !== "undefined"
-        ? data[curStatus].filter((el) => arg.id !== el)
-        : []
+      "undefined" === typeof data
+        ? []
+        : data[curStatus].filter((el) => arg.id !== el)
 
-    const argum = {
+    const args = {
       status: curStatus,
       data: newData,
     }
-    return func(argum)
+    return func(args)
   }
 
   return [deleteHandler, rest]
@@ -29,7 +31,7 @@ export const useAddVisitor = () => {
   const { data } = useGetVisitorsQuery()
   let res = useChangeVisitorsMutation()
   let [func, rest] = res
-  const addHandler = (arg: { status: status; id: number; index?: number }) => {
+  const addHandler = (arg: { status: Tstatus; id: number; index?: number }) => {
     let newData
     if (typeof data !== "undefined") {
       if (arg.index > -1) {
@@ -42,11 +44,11 @@ export const useAddVisitor = () => {
       }
     }
 
-    const argum = {
+    const args = {
       status: arg.status,
       data: newData,
     }
-    return func(argum)
+    return func(args)
   }
   return [addHandler, rest]
 }

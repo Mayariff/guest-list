@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom"
-import { PATH } from "./router"
+import { PATH } from "./routing"
 
 function App() {
   return (

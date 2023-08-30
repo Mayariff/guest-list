@@ -10,10 +10,3 @@ export type TNormalizedRes<T extends { id: number }> = {
   ids: number[]
   entities: { [T.id]: T }
 }
-
-export type TGetParams =
-  | undefined
-  | {
-      _page?: number
-      _limit?: number
-    }

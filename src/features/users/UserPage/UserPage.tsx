@@ -1,20 +1,20 @@
-import React, { useState } from "react"
+import React, { useCallback, useState } from "react"
 import { useParams } from "react-router"
-import { useEditUserMutation, useGetUserQuery } from "./apiSlice"
-import { ModalUser } from "../../common"
+import { ModalUser } from "../../../common"
+import { useEditUserMutation, useGetUserQuery } from "../index"
 
-const User = () => {
+const UserPage = () => {
   const { userID } = useParams()
   const { data } = useGetUserQuery(userID)
   const [editUser] = useEditUserMutation()
   const [showModal, setShowModal] = useState<boolean>(false)
-  const openModal = () => setShowModal(true)
-  const closeModal = () => setShowModal(false)
+  const openModal = useCallback(() => setShowModal((prev) => true), [])
+  const closeModal = useCallback(() => setShowModal((prev) => false), [])
   return (
     <div>
       {data && (
         <>
-          <img src={data.avatar} />
+          <img src={data.avatar} alt={"avatar"} />
           <div>
             {data.first_name} {data.last_name}
           </div>
@@ -32,4 +32,4 @@ const User = () => {
   )
 }
 
-export default User
+export default UserPage

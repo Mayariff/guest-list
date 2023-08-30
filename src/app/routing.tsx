@@ -1,10 +1,8 @@
 import { createBrowserRouter } from "react-router-dom"
-import App from "../App"
-import User from "../features/users/User"
-import VisitorsPage from "../features/visitors/VisitorsPage"
+import App from "./App"
 import React from "react"
 import { ErrorPage } from "../common"
-import UserPage from "../features/users/UserPage"
+import { StartUserPage, UserPage, VisitorsPage } from "../features"
 
 export enum PATH {
   users = "users",
@@ -20,11 +18,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: PATH.users,
-        element: <UserPage />,
+        element: <StartUserPage />,
       },
       {
         path: PATH.user,
-        element: <User />,
+        element: <UserPage />,
       },
       {
         path: PATH.visitors,
