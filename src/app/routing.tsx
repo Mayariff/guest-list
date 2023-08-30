@@ -1,14 +1,13 @@
 import { createBrowserRouter } from "react-router-dom"
-import App from "../App"
-import UserList from "../features/users/UserList"
-import User from "../features/users/User"
-import VisitorsPage from "../features/visitors/VisitorsPage"
+import App from "./App"
 import React from "react"
 import { ErrorPage } from "../common"
+import { StartUserPage, UserPage, VisitorsPage } from "../features"
 
 export enum PATH {
   users = "users",
   visitors = "visitors",
+  user = "users/:userID",
 }
 
 export const router = createBrowserRouter([
@@ -19,11 +18,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: PATH.users,
-        element: <UserList />,
+        element: <StartUserPage />,
       },
       {
-        path: "/users/:userID",
-        element: <User />,
+        path: PATH.user,
+        element: <UserPage />,
       },
       {
         path: PATH.visitors,

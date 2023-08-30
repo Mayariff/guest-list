@@ -1,15 +1,14 @@
-import React, { useMemo, useState } from "react"
-
-import { TUser, TVisitors } from "../api"
-import { useGetVisitorsQuery } from "./visitorsSlice"
-import { useGetUsersQuery } from "../users"
-import { Error, Loading, VisitorList } from "../../common"
+import React, { useCallback, useState } from "react"
+import { Error, Loading, VisitorList } from "../../../common"
+import { TUser, useGetUsersQuery } from "../../users"
 import {
+  status,
+  TVisitors,
   useAddVisitor,
   useDeleteVisitor,
+  useGetVisitorsQuery,
   useSelectedUsers,
-} from "./apiVisitorsHooks"
-import { status, Tboards } from "./types"
+} from "../index"
 
 const VisitorsPage = () => {
   const {
@@ -18,7 +17,7 @@ const VisitorsPage = () => {
     isSuccess: isSuccessUsers,
     isError: isErrorInUsers,
     error: errorInUsers,
-  } = useGetUsersQuery<TUser[]>()
+  } = useGetUsersQuery()
 
   const {
     data = { come_event: [], skip_event: [], wait_answer: [] },
@@ -26,7 +25,10 @@ const VisitorsPage = () => {
     isSuccess,
     isError,
     error,
-  } = useGetVisitorsQuery<TVisitors>()
+  } = useGetVisitorsQuery<TVisitors>({
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  })
 
   const [deleteHandler] = useDeleteVisitor()
   const [addHandler] = useAddVisitor()
@@ -36,38 +38,43 @@ const VisitorsPage = () => {
   const waitingUsers = useSelectedUsers(data.wait_answer, usersData)
 
   //DnD
-  const [curBoard, setCurBoard] = useState<Tboards>(null as Tboards)
+  const [curBoard, setCurBoard] = useState<Tstatus>(null as Tstatus)
   const [users, setUsers] = useState<TUser[]>(null as TUser[])
   const [user, setUser] = useState<TUser>(null as TUser)
 
-  const handleDrag = ({ item, board }: { item: TUser; board: Tboards }) => {
-    setUser(item)
-    setUsers((u) => {
-      if (board == status.skip) return skipUsers
-      else if (board == status.visit) return comeUsers
-      else return waitingUsers
-    })
-    setCurBoard(board)
-  }
+  const handleDrag = useCallback(
+    ({ item, board }: { item: TUser; board: Tstatus }) => {
+      setUser((prev) => item)
+      setUsers((u) => {
+        if (board === status.skip) return skipUsers
+        else if (board === status.visit) return comeUsers
+        else return waitingUsers
+      })
+      setCurBoard((prev) => board)
+    },
+    [],
+  )
 
-  const handleDrop = ({ item, board }: { item: TUser; board: Tboards }) => {
-    //в рамках одной доски
-    if (board === curBoard) {
-      const curIndex = users.indexOf(user)
-      const dropIndex = users.indexOf(item)
-      users.splice(curIndex, 1)
-      users.splice(dropIndex, 0, user)
-    } else {
-      //переместили на др доску
-      const dropIndex = data[board].indexOf(item.id)
-      deleteHandler({ id: user.id, status: curBoard })
-      addHandler({ id: user.id, status: board, index: dropIndex })
-    }
-    setCurBoard(null)
-    setUser(null)
-    setUsers(null)
-  }
-
+  const handleDrop = useCallback(
+    ({ item, board }: { item: TUser; board: Tstatus }) => {
+      //в рамках одной доски
+      if (board === curBoard) {
+        const curIndex = users.indexOf(user)
+        const dropIndex = users.indexOf(item)
+        users.splice(curIndex, 1)
+        users.splice(dropIndex, 0, user)
+      } else {
+        //переместили на др доску
+        const dropIndex = data[board].indexOf(item.id)
+        deleteHandler({ id: user.id, status: curBoard })
+        addHandler({ id: user.id, status: board, index: dropIndex })
+      }
+      setCurBoard((prev) => null)
+      setUser((prev) => null)
+      setUsers((prev) => null)
+    },
+    [users, curBoard, data, user],
+  )
   if (isFetching && isFetchichingUsers) return <Loading />
   if (isError || isErrorInUsers)
     return <Error errorText={error | errorInUsers} />
