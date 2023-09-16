@@ -7,15 +7,15 @@ import {
 } from "./index"
 
 export const useDeleteVisitor = () => {
-  const { data } = useGetVisitorsQuery()
+  const { data, isSuccess } = useGetVisitorsQuery()
   let res = useChangeVisitorsMutation()
   let [func, rest] = res
   const deleteHandler = (arg: { status?: Tstatus; id: number }) => {
-    const curStatus = arg.status ? arg.status : findStatus(data, arg.id)
+    const curStatus = arg.status ? arg.status : findStatus(data, Number(arg.id))
     const newData =
       "undefined" === typeof data
         ? []
-        : data[curStatus].filter((el) => arg.id !== el)
+        : data[curStatus]?.filter((el) => arg.id !== el)
 
     const args = {
       status: curStatus,
@@ -23,7 +23,6 @@ export const useDeleteVisitor = () => {
     }
     return func(args)
   }
-
   return [deleteHandler, rest]
 }
 

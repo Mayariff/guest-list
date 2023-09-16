@@ -1,22 +1,84 @@
-.container{
-  border: 1px solid black;
-  margin: 10px 20px;
-  //width: 350px;
-  background-color: red;
+@import "/src/assets/styles/mixins";
+@import "/src/assets/styles/variables";
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-
-  .itemsAria{
-    border: 1px solid black;
-    height: 100%;
-    width: 100%;
-    .item{
-      cursor: grab;
-      border: 1px solid black;
-      list-style-type: none;
+.listContainer {
+  border-radius: 8px;
+  background-color: $greyLightColor;
+  border: 1px solid $greyMediumColor;
+  position: relative;
+  @include specialBorder($yellowColor);
+  padding: 24px;
+  @include gridRow(1fr auto, start, center);
+  @media screen and (max-width: 600px) {
+    width: 80vw;
+  }
+  @media screen and (max-height: 600px) {
+    padding: 8px;
+    width: 220px;
+    &::before {
+      display: none;
     }
   }
+
+  .title {
+    @include font($baseFontColor, 1.2rem, center);
+    font-weight: bolder;
+    margin-bottom: 12px;
+  }
+
+  .itemsListAria {
+    @include size(100%, 100%);
+    min-height: 180px;
+    min-width: 220px;
+    list-style-type: none;
+    border-radius: 4px;
+    border: 2px dashed $greyMediumColor;
+    padding: 4px;
+
+    @media screen and (max-width: 600px) {
+      min-width: 100px;
+    }
+    @media screen and (max-height: 600px) {
+      min-width: 160px;
+      width: 160px;
+    }
+
+    .emptyList {
+      @include font($greyDarkColor, 1rem, center);
+      font-style: italic;
+    }
+
+    .item {
+      cursor: grab;
+      box-shadow: $shadow1;
+      background-color: $secondFontColor;
+      border-radius: 4px;
+      padding: 4px 10px;
+      margin: 8px 4px;
+      color: $accentMediumColor;
+      @media screen and (max-width: 600px) {
+        margin: 12px 4px;
+        padding: 8px 10px;
+      }
+      @media screen and (max-height: 600px) {
+        margin: 12px 4px;
+        padding: 8px 4px;
+      }
+
+      &:hover {
+        box-shadow: $shadowActive !important;
+      }
+
+      &:active {
+        box-shadow: $shadowActive !important;
+        background-color: $activeColor2 !important;
+        color: $secondFontColor !important;
+      }
+    }
+  }
+}
+
+.activeBoard {
+  background-color: $secondFontColor;
+  box-shadow: $shadow1;
 }

@@ -6,7 +6,7 @@ export const changeUsersInCash = async <T>(
   changeFunc: (draft: T) => T,
 ): T => {
   const patchResult = dispatch(
-    apiSlice.util.updateQueryData("getUsers", undefined, changeFunc),
+    apiSlice.util.updateQueryData("getUsers", "", changeFunc),
   )
   try {
     await queryFulfilled

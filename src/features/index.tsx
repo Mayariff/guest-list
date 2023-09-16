@@ -1,5 +1,6 @@
 import StartUserPage from "./users/StartUserPage/StartUserPage"
-import UserPage from "./users/UserPage/UserPage"
+import User from "./users/User/User"
 import VisitorsPage from "./visitors/VisitorPage/VisitorsPage"
+import UserPage from "./users/UserPage/UserPage";
 
-export { VisitorsPage, StartUserPage, UserPage }
+export { VisitorsPage, StartUserPage, User, UserPage }

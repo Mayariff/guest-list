@@ -7,14 +7,19 @@ import {
   createFieldName,
   initiateValues,
   randomId,
+  transformToCapitalize,
   validate,
 } from "./utilities"
 import { actionStatus, fieldsType, TUserProps } from "./types"
 import { TUser } from "../../features/users"
+import { img } from "../../assets/image"
+import { useNavigate } from "react-router"
+import { PATH } from "../../app/routing"
 
 const ModalUser = memo(
   ({ showModal, closeModal, user, onSave }: TUserProps) => {
-    const title = user ? "Изменить" : "Добавить"
+    const title = user ? "Edit User" : "Add User"
+    const navigate = useNavigate()
     const formik = useFormik<fieldsType>({
       initialValues: initiateValues(user),
       validate,
@@ -27,15 +32,24 @@ const ModalUser = memo(
         }: FormikHelpers<Omit<TUser, "id">>,
       ) => {
         try {
-          //throw Error()
+          //throw Error();
           setStatus(actionStatus.loading)
-          await onSave({ ...values, id: randomId() })
+          const arg = {
+            id: user?.id ? user?.id : randomId(),
+            email: values?.email?.trim(),
+            first_name: transformToCapitalize(values?.first_name),
+            last_name: transformToCapitalize(values?.last_name),
+            avatar: values?.avatar?.trim(),
+          }
+          await onSave(arg)
+
           setStatus(actionStatus.ok)
           setTimeout(() => {
             resetForm()
             closeModal()
-          }, 4000)
+          }, 2000)
           setSubmitting(false)
+          navigate(PATH.users + `/${arg.id}`)
         } catch (e) {
           setStatus(actionStatus.formError)
           setTimeout(() => setStatus(null), 7000)
@@ -44,9 +58,19 @@ const ModalUser = memo(
     })
 
     const handleClick = () => {
-      formik.setStatus(null)
+      formik.resetForm()
       closeModal()
     }
+    const closeHandler = (e) => {
+      formik.resetForm()
+      closeModal()
+    }
+    //css
+    const inputStyle = (el) =>
+      formik.errors[el] && formik.touched[el]
+        ? `${s.fieldInput} ${s.error}`
+        : s.fieldInput
+    const imageSuccess = { backgroundImage: `url(${img.userCheck})` }
     return (
       <>
         {showModal &&
@@ -54,37 +78,57 @@ const ModalUser = memo(
             <>
               <div className={s.modalOutside} onClick={handleClick}></div>
               <div className={s.modalContainer}>
-                {title}
                 {formik.status === actionStatus.ok ? (
-                  <div>{formik.status}</div>
+                  <div className={s.messageOk} style={imageSuccess}>
+                    {formik.status}
+                  </div>
                 ) : (
                   <>
-                    {formik.status === actionStatus.formError && (
-                      <div>{formik.status}</div>
+                    {formik.status === actionStatus.formError ? (
+                      <div className={s.messageError}>{formik.status}</div>
+                    ) : (
+                      <div className={s.title}>{title}</div>
                     )}
-                    <form onSubmit={formik.handleSubmit}>
-                      {Object.keys(formik.initialValues).map((el) => (
-                        <div key={el}>
-                          <label htmlFor={el}>{createFieldName(el)}</label>
-                          <input
-                            id={el}
-                            name={el}
-                            placeholder={el}
-                            onChange={formik.handleChange}
-                            value={formik.values[el]}
-                          />
+                    <form onSubmit={formik.handleSubmit} className={s.form}>
+                      <div className={s.formFields}>
+                        {Object.keys(formik.initialValues).map((el) => (
+                          <div key={el} className={s.field}>
+                            <label htmlFor={el} className={s.label}>
+                              {createFieldName(el)} :
+                            </label>
+                            <input
+                              className={inputStyle(el)}
+                              id={el}
+                              name={el}
+                              placeholder={el}
+                              onChange={formik.handleChange}
+                              value={formik.values[el]}
+                            />
 
-                          {formik.errors[el] && formik.touched[el] && (
-                            <div>{formik.errors[el]}</div>
-                          )}
-                        </div>
-                      ))}
-                      <button
-                        type="submit"
-                        disabled={formik.status === actionStatus.loading}
-                      >
-                        Submit
-                      </button>
+                            {formik.errors[el] && formik.touched[el] && (
+                              <div className={s.fieldError}>
+                                {formik.errors[el]}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                      <div className={s.btnAria}>
+                        <button
+                          className={s.btn}
+                          type="submit"
+                          disabled={formik.status === actionStatus.loading}
+                        >
+                          {user ? "Edit" : "+ Add"}
+                        </button>
+                        <button
+                          className={s.btn}
+                          disabled={formik.status === actionStatus.loading}
+                          onClick={closeHandler}
+                        >
+                          Close
+                        </button>
+                      </div>
                     </form>
                   </>
                 )}

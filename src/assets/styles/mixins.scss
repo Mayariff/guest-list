@@ -1,0 +1,169 @@
+@import 'variables';
+
+@mixin font($color,$fontSize, $align) {
+  color: $color;
+  font-size: $fontSize;
+  text-align: $align;
+}
+
+@mixin position( $position, $top, $bottom, $right) {
+  position: $position;
+  top: $top;
+  bottom: $bottom;
+  right: $right;
+}
+
+@mixin gridLayout($align, $justify) {
+  display: grid;
+  align-items: $align;
+  justify-items: $justify;
+}
+
+@mixin gridRow($temp, $align, $justify) {
+  @include gridLayout($align, $justify);
+  grid-template-rows: $temp;
+}
+
+@mixin gridColumn($temp, $align, $justify) {
+  @include gridLayout($align, $justify);
+  grid-template-columns: $temp;
+}
+
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin button($color) {
+  box-shadow: $shadow1;
+  background-color: $secondFontColor;
+  border-radius: 4px;
+  padding: 4px;
+  color: $color;
+  font-size: 1.1rem;
+  &:hover {
+    box-shadow: $shadowActive;
+  }
+  &:active {
+    box-shadow: $shadowHover;
+    transform: scale(0.9);
+  }
+}
+
+@mixin scrollLeft() {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  direction: rtl;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: $greyMediumColor;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $accentTransparentColor;
+    border-radius: 1px;
+  }
+}
+
+@mixin backgroundImg($position, $size) {
+  background-repeat: no-repeat;
+  background-position: $position;
+  background-size: $size;
+  position: relative;
+}
+
+@mixin search($size) {
+  width: 100%;
+  padding-left: 2rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='%23999' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' /%3E%3C/svg%3E");
+  @include backgroundImg(0.625rem 0.55rem, $size)
+}
+
+@mixin dashedBorderAria($bgPosition, $bgSize) {
+  border-radius: 4px;
+  border: 4px dashed $greyMediumColor;
+  @include font($greyDarkColor, 1.1rem, center);
+  background-color: $secondFontColor;
+  @include backgroundImg($bgPosition, $bgSize);
+}
+
+@mixin input() {
+  background-color: $secondFontColor;
+  color: $accentMediumColor;
+  box-shadow: $shadow1;
+  border-radius: 4px;
+  padding: 4px;
+  transition: background-size 0.4s;
+  &:focus {
+    box-shadow: $shadowActive;
+    background-size: 1rem
+  }
+}
+
+@mixin animationScale() {
+  animation: ani 3s;
+  transform: scale(1.15);
+  @keyframes ani {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.15);
+    }
+  }
+}
+
+@mixin animationOpacity() {
+  opacity: 1;
+  animation: opacity 2.5s;
+  @keyframes opacity {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+@mixin starDecor() {
+  &:before {
+    content: "☆";
+    @include font($accentTransparentColor, 62rem, center);
+    transform: rotate(-36deg);
+    @include position(fixed, -32%, 0, 4%);
+    z-index: -5;
+  }
+  &:after {
+    @media screen and (min-width: 1045px) {
+      content: "☆";
+      @include font($activeTransparentColor2, 36rem, center);
+      transform: rotate(-18deg);
+      @include position(fixed, 19%, 0, 60%);
+      z-index: -5;
+    }
+    @media screen and (max-width: 1045px) and ( min-height: 1000px) {
+      content: "☆";
+      @include font($activeTransparentColor2, 36rem, center);
+      transform: rotate(-18deg);
+      @include position(fixed, 26%, 0, -10%);
+      z-index: -5;
+    }
+
+  }
+}
+@mixin starDecor2(){
+  background: url('/src/assets/image/bh.png') repeat;}
+
+@mixin specialBorder($color) {
+  &::before {
+    content: "";
+    @include size(100%, 100%);
+    @include position(absolute, 10px, 0, 10px);
+    border-radius: 8px;
+    border: 20px solid $color;
+    z-index: -1;
+  }
+}

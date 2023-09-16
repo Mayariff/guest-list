@@ -1,0 +1,41 @@
+@import "../../../assets/styles/mixins";
+@import "../../../assets/styles/variables";
+
+.container {
+  @include starDecor2();
+  grid-template-areas: 'A B'
+                       'C C'
+                       'D D';
+  @include gridLayout(center, center);
+  gap: 20px;
+  padding-top: 26px;
+
+  @media screen and (max-width: 600px) {
+    grid-template-areas: 'A' 'B' 'C';
+    @include gridLayout(start, center);
+    margin-top: 0;
+    gap: 20px;
+  }
+  @media screen and (max-height: 600px) {
+    grid-template-areas: 'A B C';
+    @include gridLayout(stretch, center);
+    margin-top: 0;
+    gap: 0;
+  }
+
+  .ariaA {
+    grid-area: A;
+  }
+
+  .ariaB {
+    grid-area: B;
+  }
+
+  .ariaC {
+    grid-area: C;
+    padding-bottom: 26px;
+    @media screen and (max-height: 600px) {
+      padding-bottom: 0;
+    }
+  }
+}

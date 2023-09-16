@@ -1,5 +1,6 @@
 import React, { memo, useEffect, useState } from "react"
 import { useDebounce } from "./utilities"
+import s from "./SearchInput.module.scss"
 
 type TProps = {
   onChangeHandler: (value: string) => void
@@ -12,9 +13,13 @@ const SearchInput = memo(({ onChangeHandler }: TProps) => {
   useEffect(() => onChangeHandler(value), [value, onChangeHandler])
 
   return (
-    <div>
-      <input type={"text"} value={valueInput} onChange={changeInputText} />
-    </div>
+    <input
+      type={"text"}
+      value={valueInput}
+      onChange={changeInputText}
+      className={s.input}
+      placeholder={"Search"}
+    />
   )
 })
 

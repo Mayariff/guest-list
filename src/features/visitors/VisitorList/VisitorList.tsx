@@ -1,4 +1,4 @@
-import React, { memo } from "react"
+import React, { memo, useState } from "react"
 import s from "./VisitorList.module.scss"
 import { TUser } from "../../users"
 import { Tstatus } from "../types"
@@ -8,23 +8,48 @@ type TProps = {
   title: string
   board: Tstatus
   handleDrag: (params: { item: TUser; board: Tstatus }) => void
-  handleDrop: (params: { item: TUser; board: Tstatus }) => void
+  handleDrop: (params: { item?: TUser; board: Tstatus }) => void
 }
 const VisitorList = memo(
   ({ items, title, board, handleDrag, handleDrop }: TProps) => {
+    const onDropListAria = (e, items, board) => {
+      if (!e.defaultPrevented) {
+        handleDrop({ board })
+      }
+      setIsHoverBoard(false)
+    }
+
+    //css
+    const [isHoverBoard, setIsHoverBoard] = useState<boolean>(false)
+    const changeHoverStyle = (e, isHover) => {
+      e.preventDefault()
+      setIsHoverBoard((prev) => isHover)
+    }
+   const boardStyle= isHoverBoard ? ` ${s.listContainer} ${s.activeBoard}` : s.listContainer
     return (
-      <div className={s.container} onDragOver={(e) => e.preventDefault()}>
-        <div>{title}</div>
-        <ol className={s.itemsAria}>
-          {items.map((i) => (
-            <VisitorItem
-              key={i.id}
-              item={i}
-              board={board}
-              handleDrop={handleDrop}
-              handleDrag={handleDrag}
-            />
-          ))}
+      <div
+        className={boardStyle}
+        onDragOver={(e) => changeHoverStyle(e, true)}
+        onDragLeave={(e) => changeHoverStyle(e, false)}
+      >
+        <h3 className={s.title}>{title}</h3>
+        <ol
+          className={s.itemsListAria}
+          onDrop={(e) => onDropListAria(e, items, board)}
+        >
+          {items.length === 0 ? (
+            <div className={s.emptyList}>The list is empty</div>
+          ) : (
+            items.map((i) => (
+              <VisitorItem
+                key={i.id}
+                item={i}
+                board={board}
+                handleDrop={handleDrop}
+                handleDrag={handleDrag}
+              />
+            ))
+          )}
         </ol>
       </div>
     )
@@ -39,29 +64,39 @@ type TvisitorProps = {
 }
 
 const VisitorItem = memo(
-  ({
-    item,
-    board,
-    //dragHandler,
-    handleDrop,
-    handleDrag,
-  }: TvisitorProps) => {
-    const dragStartHandler = (e, item, board) => handleDrag({ item, board })
+  ({ item, board, handleDrop, handleDrag }: TvisitorProps) => {
+    const browserClassName = "_item_15uc6_31"
+    const dragOverHandler = (e) => {
+      e.preventDefault()
+      e.currentTarget.style.color = "#f7f7f7"
+      e.currentTarget.style.backgroundColor = "#1976d2"
+    }
+    const onDragLeaveHandler = (e) => {
+      e.currentTarget.style.color = "#764abc"
+      e.currentTarget.style.backgroundColor = "white"
+    }
+
+    const dragStartHandler = (e, item, board) => {
+      handleDrag({ item, board })
+    }
     const dropHandler = (e, item, board) => {
       e.preventDefault()
       handleDrop({ item, board })
+      e.currentTarget.style.color = "#764abc"
+      e.currentTarget.style.backgroundColor = "white"
+      e.currentTarget.style.boxShadow =
+        "0 0px 1px hsla(0, 0%, 0%, 0.2), 0 1px 2px hsla(0, 0%, 0%, 0.2)"
     }
+
     return (
       <li
         className={s.item}
         draggable={true}
         onDragStart={(e) => dragStartHandler(e, item, board)} //сработает когда взяли item
         onDrop={(e) => dropHandler(e, item, board)} //отпустили и какое то событие ожидаем
-        onDragOver={(e) => e.preventDefault()} //находимся над др объектом
-        /*onDragLeave={} //сработает когда вышли за пределы другого item
-      onDragEnd={} //отпустили перемещение
-      onDragOver={} //находимся над др объектом
-*/
+        onDragOver={dragOverHandler} //находимся над др объектом
+        onDragLeave={onDragLeaveHandler} //сработает когда вышли за пределы другого item
+        onDragEnd={onDragLeaveHandler}
       >
         {item.first_name}
       </li>

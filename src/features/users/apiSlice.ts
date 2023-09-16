@@ -52,7 +52,7 @@ export const apiSlice = createApi({
     }),
     editUser: builder.mutation<TUser, Partial<TUser>>({
       query: (user) => ({
-        url: `user/${user.id}`,
+        url: `users/${user.id}`,
         method: "PATCH",
         body: user,
       }),
@@ -64,13 +64,13 @@ export const apiSlice = createApi({
         method: "DELETE",
       }),
       async onQueryStarted(id: number | string, { dispatch, queryFulfilled }) {
-        changeUsersInCash<TNormalizedRes<TUser>>(
+        await changeUsersInCash<TNormalizedRes<TUser>>(
           { dispatch, queryFulfilled },
           (draft) => {
-            const index = draft.ids.indexOf(id)
+            const index = draft.ids.indexOf(+id)
             if (index > -1) {
               draft.ids.splice(index, 1)
-              delete draft.entities[id]
+              delete draft.entities[+id]
             }
           },
         )
@@ -78,11 +78,3 @@ export const apiSlice = createApi({
     }),
   }),
 })
-/*
-export apiSlice /!*const {
-  useGetUsersQuery,
-  useAddUserMutation,
-  useGetUserQuery,
-  useEditUserMutation,
-  useDeleteUserMutation,
-} = *!/apiSlice*/

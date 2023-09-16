@@ -1,0 +1,13 @@
+@import "/src/assets/styles/mixins";
+@import "/src/assets/styles/variables";
+
+.pageContainer {
+  @include gridColumn(1fr 5fr, stretch, center);
+  width: 100%;
+  @media screen and (max-width: 1000px) {
+    @include gridColumn(1fr , stretch, center);
+  }
+  @media screen and (max-width: 1000px) and (max-height: 600px){
+    @include gridColumn(1fr 2fr, stretch, center);
+  }
+}

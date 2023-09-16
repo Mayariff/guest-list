@@ -1,0 +1,7 @@
+@import "/src/assets/styles/mixins";
+@import "/src/assets/styles/variables";
+
+.input {
+  @include input();
+  @include search(1.1rem);
+}

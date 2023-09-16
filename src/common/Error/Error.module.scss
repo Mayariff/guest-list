@@ -1,0 +1,32 @@
+@import "/src/assets/styles/mixins";
+@import "/src/assets/styles/variables";
+
+.errorContainer {
+  @include position(absolute, 30%, 0, 38%);
+  @include gridRow(auto 100%, start, center);
+  gap: 16px;
+
+  .img {
+    @include size(270px, 270px);
+    @include backgroundImg(50% 76%, 240px);
+    border-radius: 50%;
+    background-color: $greyDarkColor;
+    animation: 1.2s ease-in-out 0s normal none 3 running trambling;
+    @keyframes trambling {
+      0%, 50%, 100% {
+        transform: rotate(0deg);
+      }
+      10%, 30% {
+        transform: rotate(-10deg);
+      }
+      20%, 40% {
+        transform: rotate(10deg);
+      }
+    }
+  }
+
+  .text {
+    @include font($baseFontColor, 2rem, center);
+    font-weight: bolder;
+  }
+}
