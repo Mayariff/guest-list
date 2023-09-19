@@ -9,7 +9,7 @@ import { createTag, createTags } from "../../helpers"
 import { TNormalizedRes, TUser } from "./types"
 import { TagDescription } from "@reduxjs/toolkit/query"
 
-export const baseURl = /*'https://my-json-server.typicode.com/Mayariff/guest-list'*/ "http://localhost:3000"
+export const baseURl =  "http://localhost:3000"
 const apiAdapter = createEntityAdapter()
 const initialState = apiAdapter.getInitialState()
 

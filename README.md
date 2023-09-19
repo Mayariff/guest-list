@@ -11,8 +11,7 @@ React, RTK Query, React-router-dom, SaaS (scss) , formik (+ using drag'N'drop)
 ЗАПУСК: 
 1. Скачайте проект
 2. Из файла db_init.json скопируйте содержимое в db.json (в папке guest-list)
-3. Убедитесь, что в файле src-> features-> users-> apiSlice.ts baseURl = 'http://localhost:3000'
-4. yarn server -команда для запуска сервера
-5. yarn start  - команда для запуска App
+3. yarn server -команда для запуска сервера
+4. yarn start  - команда для запуска App
 
 
