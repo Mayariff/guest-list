@@ -2,7 +2,7 @@
 @import "/src/assets/styles/variables";
 
 .container {
-  @include gridRow(2fr 12fr 4fr 2fr, stretch, stretch);
+  @include gridRow(2fr 10fr 4fr 2fr, stretch, stretch);
   background-color: $greyLightColor;
   border-right: 1px solid $greyMediumColor;
   justify-self: start;
@@ -28,7 +28,7 @@
     position: static;
     padding-bottom: 50px;
   }
-  @media screen and (height: 600px){
+  @media screen and (height: 600px) {
     height: 83vh;
   }
 
@@ -39,8 +39,6 @@
     @include gridRow(1fr, center, inherit);
     @media screen and (max-width: 1000px) and (max-height: 600px) {
       font-size: 1rem;
-    }
-    @media screen and (max-width: 1000px) and (max-height: 600px) {
       border-bottom: none;
     }
 
@@ -48,6 +46,7 @@
       list-style-type: none;
       max-height: 360px;
       text-align: end;
+
       .noMatches {
         @include font($greyDarkColor, 1rem, center);
       }
@@ -61,7 +60,7 @@
       @media screen and (max-width: 1000px) {
         height: 200px;
       }
-      @media screen and (max-width: 1000px)  and (max-height: 680px){
+      @media screen and (max-width: 1000px) and (max-height: 680px) {
         height: 160px;
       }
       @media screen and (max-width: 1000px) and (max-height: 500px) {
@@ -69,13 +68,8 @@
         height: 100px;
         font-size: 0.8rem;
       }
-      @media screen and (height: 600px){
+      @media screen and (height: 600px) {
         @include dashedBorderAria(50% 90%, 30px);
-      }
-      @media screen and (max-height: 280px){
-        height:60px;
-        line-height: 1.2rem;
-        @include dashedBorderAria(50% 50%, 0);
       }
     }
 
@@ -98,7 +92,7 @@
       @media screen and (max-width: 1000px) and (max-height: 500px) {
         font-size: 1rem;
       }
-      @media screen and (max-height: 280px){
+      @media screen and (max-height: 280px) {
         font-size: 0.8rem;
       }
     }

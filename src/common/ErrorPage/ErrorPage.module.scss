@@ -1,0 +1,50 @@
+@import "/src/assets/styles/mixins";
+@import "/src/assets/styles/variables";
+
+.container {
+  padding: 16% 8px 0;
+  grid-template-areas: "B A" "B C" "B D";
+  @include gridLayout(stretch, start);
+  justify-content: center;
+  @include font($baseFontColor, 1.5rem, start);
+  column-gap: 30px;
+
+  &::before {
+    content: "";
+    @include size(100vw, 100vh);
+    @include position(absolute, 0, 0, 0);
+    z-index: -1;
+    @include starDecor2();
+  }
+  @media screen and (max-width: 610px) {
+    font-size: 1rem;
+  }
+
+  .header {
+    grid-area: A;
+    @include font($accentDarkColor, 3rem, start);
+    font-weight: bolder;
+    @media screen and (max-width: 610px) {
+      font-size: 2rem;
+    }
+  }
+
+  .img {
+    grid-area: B;
+    justify-self: end;
+    width: 100%;
+    max-width: 270px;
+    border-radius: 50%;
+    background-color: $greyDarkColor;
+  }
+
+  .errorCommonText {
+    grid-area: C;
+  }
+
+  .errorText {
+    grid-area: D;
+    color: $accentDarkColor;
+    font-style: oblique;
+  }
+}

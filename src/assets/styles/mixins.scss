@@ -114,10 +114,9 @@
     }
   }
 }
-
-@mixin animationOpacity() {
+@mixin animOpacityTime($time) {
   opacity: 1;
-  animation: opacity 2.5s;
+  animation: opacity $time;
   @keyframes opacity {
     0% {
       opacity: 0;
@@ -126,6 +125,9 @@
       opacity: 1;
     }
   }
+}
+@mixin animationOpacity() {
+  @include animOpacityTime(2.5s);
 }
 
 @mixin starDecor() {

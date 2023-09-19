@@ -2,6 +2,7 @@ import React, { memo, useState } from "react"
 import s from "./VisitorList.module.scss"
 import { TUser } from "../../users"
 import { Tstatus } from "../types"
+import { Popup } from "../../../common"
 
 type TProps = {
   items: TUser[]
@@ -25,7 +26,9 @@ const VisitorList = memo(
       e.preventDefault()
       setIsHoverBoard((prev) => isHover)
     }
-   const boardStyle= isHoverBoard ? ` ${s.listContainer} ${s.activeBoard}` : s.listContainer
+    const boardStyle = isHoverBoard
+      ? ` ${s.listContainer} ${s.activeBoard}`
+      : s.listContainer
     return (
       <div
         className={boardStyle}
@@ -65,6 +68,7 @@ type TvisitorProps = {
 
 const VisitorItem = memo(
   ({ item, board, handleDrop, handleDrag }: TvisitorProps) => {
+    //Dnd and styles
     const browserClassName = "_item_15uc6_31"
     const dragOverHandler = (e) => {
       e.preventDefault()
@@ -75,7 +79,6 @@ const VisitorItem = memo(
       e.currentTarget.style.color = "#764abc"
       e.currentTarget.style.backgroundColor = "white"
     }
-
     const dragStartHandler = (e, item, board) => {
       handleDrag({ item, board })
     }
@@ -88,6 +91,11 @@ const VisitorItem = memo(
         "0 0px 1px hsla(0, 0%, 0%, 0.2), 0 1px 2px hsla(0, 0%, 0%, 0.2)"
     }
 
+    //popUp
+    const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false)
+    const openPopup = (e) => setIsOpenPopup(true)
+    const closePopup = () => setIsOpenPopup(false)
+
     return (
       <li
         className={s.item}
@@ -98,7 +106,10 @@ const VisitorItem = memo(
         onDragLeave={onDragLeaveHandler} //сработает когда вышли за пределы другого item
         onDragEnd={onDragLeaveHandler}
       >
-        {item.first_name}
+        <span className={s.itemText} onClick={openPopup}>
+          {item.first_name}
+        </span>
+        {isOpenPopup && <Popup closePopup={closePopup} item={item} isOpenPopup={isOpenPopup}/>}
       </li>
     )
   },

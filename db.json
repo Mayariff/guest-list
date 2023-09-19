@@ -83,13 +83,18 @@
       "first_name": "Rachel",
       "last_name": "Howell",
       "avatar": "https://reqres.in/img/faces/12-image.jpg"
+    },
+    {
+      "id": 37764666,
+      "email": "maya-mno@yandex.ru",
+      "first_name": "Tgggt",
+      "last_name": "Ggg",
+      "avatar": ""
     }
   ],
   "come_event": {
     "come_event": [
-      1,
       10,
-      4,
       2
     ]
   },
@@ -101,7 +106,9 @@
   },
   "wait_answer": {
     "wait_answer": [
+      1,
       5,
+      4,
       6,
       3,
       8,

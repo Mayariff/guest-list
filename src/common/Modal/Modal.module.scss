@@ -9,7 +9,7 @@
 }
 
 .modalContainer {
-  @include position(fixed, 40%, inherit, 50%);
+  @include position(absolute, 40%, inherit, 50%);
   transform: translate(50%, -50%);
   z-index: 1;
   width: 312px;
@@ -20,7 +20,21 @@
   box-shadow: $shadow1;
   @include gridRow(auto 1fr, end, center);
   gap: 10px;
-
+  @media screen and (max-width: 320px) {
+    width: 240px;
+  }
+  @media screen and (max-height: 580px) {
+    font-size: 1rem;
+    gap:0;
+    padding: 16px;
+    top:50%;
+  }
+  @media screen and (max-height: 280px) {
+    font-size: 1rem;
+    gap:0;
+    padding: 16px;
+    top: 70%;
+  }
   .title {
     @include font($baseFontColor, 1.1rem, center);
     font-weight: bolder;
@@ -42,11 +56,15 @@
   .form {
     @include gridRow(auto 1fr, stretch, stretch);
     gap: 28px;
-
+    @media screen and (max-height: 415px) {
+      gap:10px;
+    }
     .formFields {
       @include gridRow(repeat(4, 1fr), center, start);
       gap: 12px;
-
+      @media screen and (max-height: 415px) {
+        gap:6px;
+      }
       .field {
         position: relative;
 
@@ -58,6 +76,10 @@
         .fieldInput {
           @include input();
           width: 280px;
+          @media screen and (max-width: 320px) {
+            width: 100%;
+            min-width: 160px;
+          }
         }
 
         .error {
@@ -65,7 +87,7 @@
         }
 
         .fieldError {
-          @include position(absolute, 56px, 0, 4px);
+          @include position(absolute, 62px, 0, 4px);
           @include font($redColor, 0.8rem, right);
         }
       }
@@ -77,6 +99,9 @@
 
       .btn {
         @include button($activeColor);
+        @media screen and (max-height: 415px) {
+          font-size: 1rem;
+        }
 
         &:disabled {
           color: $greyDarkColor;
@@ -93,7 +118,9 @@
 
     .btn {
       @include button($activeColor);
-
+      @media screen and (max-height: 415px) {
+        font-size: 1rem;
+      }
       &:disabled {
         color: $greyDarkColor;
       }
@@ -103,5 +130,4 @@
   .delErrMessage {
     @include position(absolute, 54px, 0, auto);
   }
-
 }
