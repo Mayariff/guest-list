@@ -1,6 +1,5 @@
 {
   "name": "guest-list",
-  "homepage": "https://Mayariff/guest-list",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,9 +12,7 @@
     "format": "prettier --write .",
     "lint": "eslint .",
     "type-check": "tsc",
-    "server": "json-server --watch db.json",
-    "predeploy": "yarn run build",
-    "deploy": "gh-pages -d dist"
+    "server": "json-server --watch db.json"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",

@@ -7,16 +7,15 @@ import {
 } from "react"
 import { TStatusCSS } from "../features/users/types"
 import s from "../features/users/UsersList/UsersList.module.scss"
-import { TagDescription } from "@reduxjs/toolkit/query";
 
 //for tags in RTK Query
 export const createTag = (
-  res?: unknown, /*readonly TagDescription<"user">[],*//*object & { id: string | number }|undefined,*/
+  res?: (object & { id: string | number }) | undefined,
   tagName: string,
-) => res.id ? [{ type: tagName, id: +res.id }] as readonly TagDescription<"user">[] : [{ type: tagName, id: 6666 }] as readonly TagDescription<"user">[]
+) => [{ type: tagName, id: +res.id }]
 
-export const createTags = (res?: unknown /*readonly TagDescription<"user">[]*//*number[] | string[]*/, tagName: string) =>
- res? res.ids.map((el) => ({ type: tagName, id: +el })) as readonly TagDescription<"user">[]:[] as readonly TagDescription<"user">[]
+export const createTags = (res?: number[] | string[], tagName: string) =>
+  res.map((el) => ({ type: tagName, id: +el }))
 
 // styles for DND elements
 type argT = {
@@ -79,7 +78,7 @@ export const useOutsideClick = (fn: () => void) => {
       if (count.current > 0 && !elRef.current?.contains(e.target)) {
         fn()
       }
-      if(count.current!==null) count.current++
+      if (count.current !== null) count.current++
     }
     document.addEventListener("click", onClick)
     return () => document.removeEventListener("click", onClick)

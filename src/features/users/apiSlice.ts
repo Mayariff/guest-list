@@ -7,11 +7,11 @@ import { createEntityAdapter } from "@reduxjs/toolkit"
 import { changeUsersInCash } from "./utilities"
 import { createTag, createTags } from "../../helpers"
 import { TNormalizedRes, TUser } from "./types"
-import { TagDescription } from "@reduxjs/toolkit/query"
 
-export const baseURl =  "http://localhost:3000"
+export const baseURl = "http://localhost:3000"
 const apiAdapter = createEntityAdapter()
 const initialState = apiAdapter.getInitialState()
+
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -27,19 +27,12 @@ export const apiSlice = createApi({
           q: query,
         },
       }),
-      providesTags: (result) =>
-        result
-          ? createTags(result, "user")
-          : ([] as readonly TagDescription<"user">[]),
-      transformResponse: (res: TUser[]) =>
-        apiAdapter.setAll(initialState, res) as TNormalizedRes<TUser>,
+      providesTags: (result) => createTags(result.ids, "user"),
+      transformResponse: (res) => apiAdapter.setAll(initialState, res),
     }),
     getUser: builder.query<TUser, string>({
       query: (id: string) => ({ url: `users/${id}` }),
-      providesTags: (result) =>
-        result
-          ? createTag(result, "user")
-          : ([] as readonly TagDescription<"user">[]),
+      providesTags: (result) => createTag(result, "user"),
     }),
     addUser: builder.mutation<TUser, TUser>({
       query: (user) => ({
