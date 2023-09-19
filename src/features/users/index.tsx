@@ -1,6 +1,7 @@
 import UsersList from "./UsersList/UsersList"
-import { apiSlice } from "./apiSlice"
+import { apiSlice, baseURl } from "./apiSlice";
 import type { TUser } from "./types"
+
 
 export const {
   useGetUsersQuery,
@@ -10,4 +11,4 @@ export const {
   useDeleteUserMutation,
 } = apiSlice
 
-export { UsersList, TUser }
+export { UsersList, TUser, baseURl }

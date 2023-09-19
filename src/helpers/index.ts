@@ -1,15 +1,22 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { TStatusCSS } from "../features/users/types";
-import s from "../features/users/UsersList/UsersList.module.scss";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react"
+import { TStatusCSS } from "../features/users/types"
+import s from "../features/users/UsersList/UsersList.module.scss"
+import { TagDescription } from "@reduxjs/toolkit/query";
 
 //for tags in RTK Query
 export const createTag = (
-  res: object & { id: string | number },
+  res?: unknown, /*readonly TagDescription<"user">[],*//*object & { id: string | number }|undefined,*/
   tagName: string,
-) => [{ type: tagName, id: res.id }]
+) => res.id ? [{ type: tagName, id: +res.id }] as readonly TagDescription<"user">[] : [{ type: tagName, id: 6666 }] as readonly TagDescription<"user">[]
 
-export const createTags = (res: number[] | string[], tagName: string) =>
-  res.map((el) => ({ type: tagName, id: el }))
+export const createTags = (res?: unknown /*readonly TagDescription<"user">[]*//*number[] | string[]*/, tagName: string) =>
+ res? res.ids.map((el) => ({ type: tagName, id: +el })) as readonly TagDescription<"user">[]:[] as readonly TagDescription<"user">[]
 
 // styles for DND elements
 type argT = {
@@ -66,12 +73,13 @@ export const useIdentifyScreen = () => {
 export const useOutsideClick = (fn: () => void) => {
   const elRef = useRef(null)
   const count = useRef(null)
+  count.current = 0
   useEffect(() => {
     const onClick = (e) => {
-      if (count.current > 0 && !elRef.current.contains(e.target)) {
+      if (count.current > 0 && !elRef.current?.contains(e.target)) {
         fn()
       }
-      count.current++
+      if(count.current!==null) count.current++
     }
     document.addEventListener("click", onClick)
     return () => document.removeEventListener("click", onClick)

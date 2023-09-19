@@ -1,18 +1,19 @@
-import { TUser } from "../../features/users";
+import { TUser } from "../../features/users"
 
-
-export const initiateValues = (user?: TUser) => ({
+export const initiateValues = (user?: Partial<TUser>) => ({
   first_name: user ? user.first_name : "",
   last_name: user ? user.last_name : "",
   email: user ? user.email : "",
   avatar: user ? user.avatar : "",
 })
 
-export const validate = (values:unknown) => {
-  const errors = {}
+export const validate = (values: Partial<TUser>) => {
+  const errors: any = {}
   if (!values.email) {
     errors.email = "Required"
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email.trim())) {
+  } else if (
+    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email.trim())
+  ) {
     errors.email = "Invalid email address"
   }
   if (!values.first_name) {
@@ -30,6 +31,7 @@ export const validate = (values:unknown) => {
     errors.last_name = "Too long string"
   }
   if (
+    values.avatar &&
     !/^https?:\S+.(?:jpe?g|png)$/i.test(values.avatar.trim()) &&
     values.avatar.length > 0
   ) {
@@ -50,11 +52,11 @@ export const randomId = () => {
   return Math.floor(Math.random() * (100000000 - 20 + 1) + 20)
 }
 
-export const transformToCapitalize=(arg:string)=>{
+export const transformToCapitalize = (arg: string) => {
   let str = arg.trim()
-  if(str.length>1) {
+  if (str.length > 1) {
     return str[0].toUpperCase() + str.substring(1, str.length)
-  }else{
+  } else {
     return str.toUpperCase()
   }
 }

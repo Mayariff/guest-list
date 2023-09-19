@@ -1,4 +1,4 @@
-import React, { memo } from "react"
+import React, { memo, MouseEventHandler } from "react"
 import { createPortal } from "react-dom"
 import s from "./Modal.module.scss"
 
@@ -10,7 +10,7 @@ import {
   transformToCapitalize,
   validate,
 } from "./utilities"
-import { actionStatus, fieldsType, TUserProps } from "./types"
+import { actionStatus, TUserProps } from "./types"
 import { TUser } from "../../features/users"
 import { img } from "../../assets/image"
 import { useNavigate } from "react-router"
@@ -20,26 +20,24 @@ const ModalUser = memo(
   ({ showModal, closeModal, user, onSave }: TUserProps) => {
     const title = user ? "Edit User" : "Add User"
     const navigate = useNavigate()
-    const formik = useFormik<fieldsType>({
+    const formik = useFormik<Partial<TUser>>({
       initialValues: initiateValues(user),
       validate,
       onSubmit: async (
-        values: Omit<TUser, "id">,
-        {
-          setSubmitting,
-          resetForm,
-          setStatus,
-        }: FormikHelpers<Omit<TUser, "id">>,
+        values: Partial<TUser>,
+        { setSubmitting, resetForm, setStatus }: FormikHelpers<Partial<TUser>>,
       ) => {
         try {
           //throw Error();
           setStatus(actionStatus.loading)
           const arg = {
             id: user?.id ? user?.id : randomId(),
-            email: values?.email?.trim(),
-            first_name: transformToCapitalize(values?.first_name),
-            last_name: transformToCapitalize(values?.last_name),
-            avatar: values?.avatar?.trim(),
+            email: values.email?.trim(),
+            first_name:
+              values?.first_name && transformToCapitalize(values.first_name),
+            last_name:
+              values?.last_name && transformToCapitalize(values.last_name),
+            avatar: values.avatar?.trim(),
           }
           await onSave(arg)
 
@@ -61,12 +59,12 @@ const ModalUser = memo(
       formik.resetForm()
       closeModal()
     }
-    const closeHandler = (e) => {
+    const closeHandler: MouseEventHandler<HTMLElement> = (e) => {
       formik.resetForm()
       closeModal()
     }
     //css
-    const inputStyle = (el) =>
+    const inputStyle = (el: keyof Partial<TUser>) =>
       formik.errors[el] && formik.touched[el]
         ? `${s.fieldInput} ${s.error}`
         : s.fieldInput
@@ -97,19 +95,20 @@ const ModalUser = memo(
                               {createFieldName(el)} :
                             </label>
                             <input
-                              className={inputStyle(el)}
+                              className={inputStyle(el as keyof Partial<TUser>)}
                               id={el}
                               name={el}
                               placeholder={el}
                               onChange={formik.handleChange}
-                              value={formik.values[el]}
+                              value={formik.values[el as keyof Partial<TUser>]}
                             />
 
-                            {formik.errors[el] && formik.touched[el] && (
-                              <div className={s.fieldError}>
-                                {formik.errors[el]}
-                              </div>
-                            )}
+                            {formik.errors[el as keyof Partial<TUser>] &&
+                              formik.touched[el as keyof Partial<TUser>] && (
+                                <div className={s.fieldError}>
+                                  {formik.errors[el as keyof Partial<TUser>]}
+                                </div>
+                              )}
                           </div>
                         ))}
                       </div>

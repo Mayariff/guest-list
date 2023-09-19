@@ -11,7 +11,7 @@ export enum actionStatus {
 //del Modal
 export type TDelProps = {
   showModal: boolean
-  onDel: (id: number) => void
+  onDel: (id?: number) => void
   closeModal: () => void
   user: TUser
 }

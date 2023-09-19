@@ -1,4 +1,4 @@
-import React from "react"
+import React, { MouseEventHandler } from "react";
 import { TUser } from "../../features/users"
 import s from "./Popup.module.scss"
 import { useOutsideClick } from "../../helpers"
@@ -14,7 +14,7 @@ type TProps = {
 const Popup = ({ closePopup, item, isOpenPopup }: TProps) => {
   const { email, first_name, last_name, avatar, id } = item
 
-  const onClose = (e) => closePopup()
+  const onClose:MouseEventHandler<HTMLElement> = (e) => closePopup()
   const rootEl = useOutsideClick(closePopup)
 
   return (

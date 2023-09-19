@@ -1,7 +1,7 @@
 import { Link, Outlet } from "react-router-dom"
 import { PATH } from "./routing"
 import s from "./App.module.scss"
-import { useEffect, useState } from "react"
+import { MouseEventHandler, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router"
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
   }, [])
 
   const [activeFirst, setActiveFirst] = useState<boolean>(true)
-  const onClickHandler = (e) => setActiveFirst((prev) => !prev)
+  const onClickHandler: MouseEventHandler<HTMLAnchorElement> = (e) => setActiveFirst((prev) => !prev)
 
   const usersStyle = activeFirst ? `${s.link} ${s.active}` : s.link
   const visitorsStyle = activeFirst ? s.link : `${s.link} ${s.active}`
@@ -25,7 +25,7 @@ function App() {
         <Link
           to={PATH.visitors}
           className={visitorsStyle}
-          onClick={onClickHandler}
+          onClick={(e)=>onClickHandler}
         >
           Visitors
         </Link>

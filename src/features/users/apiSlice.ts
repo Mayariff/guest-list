@@ -7,14 +7,15 @@ import { createEntityAdapter } from "@reduxjs/toolkit"
 import { changeUsersInCash } from "./utilities"
 import { createTag, createTags } from "../../helpers"
 import { TNormalizedRes, TUser } from "./types"
+import { TagDescription } from "@reduxjs/toolkit/query"
 
+export const baseURl = /*'https://my-json-server.typicode.com/Mayariff/guest-list'*/ "http://localhost:3000"
 const apiAdapter = createEntityAdapter()
-
 const initialState = apiAdapter.getInitialState()
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: retry(fetchBaseQuery({ baseUrl: "http://localhost:3000/" }), {
+  baseQuery: retry(fetchBaseQuery({ baseUrl: baseURl }), {
     maxRetries: 3,
   }),
   tagTypes: ["user"],
@@ -26,12 +27,19 @@ export const apiSlice = createApi({
           q: query,
         },
       }),
-      providesTags: (result) => createTags(result.ids, "user"),
-      transformResponse: (res) => apiAdapter.setAll(initialState, res),
+      providesTags: (result) =>
+        result
+          ? createTags(result, "user")
+          : ([] as readonly TagDescription<"user">[]),
+      transformResponse: (res: TUser[]) =>
+        apiAdapter.setAll(initialState, res) as TNormalizedRes<TUser>,
     }),
     getUser: builder.query<TUser, string>({
       query: (id: string) => ({ url: `users/${id}` }),
-      providesTags: (result) => createTag(result, "user"),
+      providesTags: (result) =>
+        result
+          ? createTag(result, "user")
+          : ([] as readonly TagDescription<"user">[]),
     }),
     addUser: builder.mutation<TUser, TUser>({
       query: (user) => ({
@@ -39,7 +47,7 @@ export const apiSlice = createApi({
         method: "POST",
         body: user,
       }),
-      providesTags: (result) => createTag(result, "user"),
+      //providesTags:  (result:TUser) => createTag(result, "user"),
       async onQueryStarted(user, { dispatch, queryFulfilled }) {
         changeUsersInCash<TNormalizedRes<TUser>>(
           { dispatch, queryFulfilled },
