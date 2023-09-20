@@ -12,7 +12,6 @@ export const baseURl = "http://localhost:3000"
 const apiAdapter = createEntityAdapter()
 const initialState = apiAdapter.getInitialState()
 
-
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: retry(fetchBaseQuery({ baseUrl: baseURl }), {
@@ -40,7 +39,7 @@ export const apiSlice = createApi({
         method: "POST",
         body: user,
       }),
-      providesTags:  (result:TUser) => createTag(result, "user"),
+      providesTags: (result: TUser) => createTag(result, "user"),
       async onQueryStarted(user, { dispatch, queryFulfilled }) {
         changeUsersInCash<TNormalizedRes<TUser>>(
           { dispatch, queryFulfilled },
@@ -57,6 +56,14 @@ export const apiSlice = createApi({
         method: "PATCH",
         body: user,
       }),
+      async onQueryStarted(user, { dispatch, queryFulfilled }) {
+        changeUsersInCash<TNormalizedRes<TUser>>(
+          { dispatch, queryFulfilled },
+          (draft) => {
+            draft.entities[user.id] = user
+          },
+        )
+      },
       invalidatesTags: (result) => createTag(result, "user"),
     }),
     deleteUser: builder.mutation<string, number | string>({

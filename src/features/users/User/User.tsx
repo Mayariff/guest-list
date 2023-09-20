@@ -22,13 +22,13 @@ const User = () => {
   const [showEditModal, setShowEditModal] = useState<boolean>(false)
   const openModal = useCallback(() => setShowEditModal((prev) => true), [])
   const closeModal = useCallback(() => setShowEditModal((prev) => false), [])
-  const editItem = useCallback(async (u: Partial<TUser>) => {
+ /* const editItem = useCallback(async (u: Partial<TUser>) => {
     try {
       await editUser(u).unwrap()
     } catch (e) {
       throw Error()
     }
-  }, [])
+  }, [])*/
 
   //Del modal
   const [showDelModal, setDelShowModal] = useState<boolean>(false)
@@ -70,7 +70,7 @@ const User = () => {
           <ModalUser
             closeModal={closeModal}
             showModal={showEditModal}
-            onSave={editItem}
+            onSave={editUser}
             user={data}
           />
           <ModalDelete
