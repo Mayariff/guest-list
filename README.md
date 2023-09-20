@@ -14,4 +14,10 @@ React, RTK Query, React-router-dom, SaaS (scss) , formik (+ using drag'N'drop)
 3. yarn server -команда для запуска сервера
 4. yarn start  - команда для запуска App
 
+Посмотреть работу App:
+
+https://github.com/Mayariff/guest-list/assets/84090553/ca90ae30-e5ca-4393-bb80-6369692edc9d
+
+
+
 
