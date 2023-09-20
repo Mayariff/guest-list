@@ -45,14 +45,14 @@ const UsersList = () => {
       throw Error()
     }
   }, [id])
-  const addItem = useCallback(async (arg: TUser) => {
+  const addItem = async (arg: TUser) => {
     try {
       await addUser(arg).unwrap()
       addHandler({ status: status.wait, id: arg.id })
     } catch (e) {
       throw Error()
     }
-  }, [])
+  }
 
   //modal Add user
   const [showModal, setShowModal] = useState<boolean>(false)

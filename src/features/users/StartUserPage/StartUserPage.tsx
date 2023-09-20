@@ -12,14 +12,14 @@ const StartUserPage = () => {
   const openModal = useCallback(() => setShowModal((prev) => true), [])
   const closeModal = useCallback(() => setShowModal((prev) => false), [])
 
-  const addItem = useCallback(async (arg: TUser) => {
+  const addItem = async (arg: TUser) => {
     try {
       await addUser(arg).unwrap()
       addHandler({ status: status.wait, id: arg.id })
     } catch (e) {
       throw Error()
     }
-  }, [])
+  }
 
   const image = { backgroundImage: `url(${img.userAdd})` }
   return (

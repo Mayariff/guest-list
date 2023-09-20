@@ -27,7 +27,7 @@ export const useDeleteVisitor = () => {
 }
 
 export const useAddVisitor = () => {
-  const { data } = useGetVisitorsQuery()
+  const { data, isSuccess } = useGetVisitorsQuery()
   let res = useChangeVisitorsMutation()
   let [func, rest] = res
   const addHandler = (arg: { status: Tstatus; id: number; index?: number }) => {
