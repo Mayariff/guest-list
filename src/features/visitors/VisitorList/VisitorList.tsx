@@ -107,9 +107,15 @@ const VisitorItem = memo(
         onDragEnd={onDragLeaveHandler}
       >
         <span className={s.itemText} onClick={openPopup}>
-          {item.first_name}
+          {item.first_name} {item.id}
         </span>
-        {isOpenPopup && <Popup closePopup={closePopup} item={item} isOpenPopup={isOpenPopup}/>}
+        {isOpenPopup && (
+          <Popup
+            closePopup={closePopup}
+            item={item}
+            isOpenPopup={isOpenPopup}
+          />
+        )}
       </li>
     )
   },

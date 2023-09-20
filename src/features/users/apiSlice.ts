@@ -40,7 +40,7 @@ export const apiSlice = createApi({
         method: "POST",
         body: user,
       }),
-      //providesTags:  (result:TUser) => createTag(result, "user"),
+      providesTags:  (result:TUser) => createTag(result, "user"),
       async onQueryStarted(user, { dispatch, queryFulfilled }) {
         changeUsersInCash<TNormalizedRes<TUser>>(
           { dispatch, queryFulfilled },

@@ -5,6 +5,7 @@ import {
   useChangeVisitorsMutation,
   useGetVisitorsQuery,
 } from "./index"
+import { TUser } from "../users"
 
 export const useDeleteVisitor = () => {
   const { data, isSuccess } = useGetVisitorsQuery()
@@ -56,8 +57,7 @@ export const useSelectedUsers = (
   statusArray: number[],
   users: TUser[],
 ): TUser[] => {
-  return useMemo(
-    () => statusArray.map((u) => users.entities[u]),
-    [statusArray, users],
-  )
+  return useMemo(() => {
+    return statusArray.map((u) => users.entities[u])
+  }, [statusArray, users])
 }

@@ -27,8 +27,7 @@ export const visitorsApiSlice = apiSlice.injectEndpoints({
           return { error: "Request error. Check URI or parameters in request." };
         }
       },
-      providesTags: (result, error, arg) =>
-        createTags(Object.keys(result), "visitor")
+      providesTags: (result, error, arg) => createTags(Object.keys(result), "visitor")
     }),
     changeVisitors: builder.mutation<number[], TInfoVisitor<number[]>>({
       query: (infoVisitor) => ({

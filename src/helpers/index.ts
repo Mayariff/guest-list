@@ -10,12 +10,15 @@ import s from "../features/users/UsersList/UsersList.module.scss"
 
 //for tags in RTK Query
 export const createTag = (
-  res?: (object & { id: string | number }) | undefined,
+  res: (object & { id: string | number }) | undefined,
   tagName: string,
-) => [{ type: tagName, id: +res.id }]
+) =>  [{ type: tagName, id: res.id }]
 
-export const createTags = (res?: number[] | string[], tagName: string) =>
-  res.map((el) => ({ type: tagName, id: +el }))
+
+export const createTags = (res: number[] | string[], tagName: string) => {
+  return res.map((el) => ({ type: tagName, id: el }))
+
+}
 
 // styles for DND elements
 type argT = {

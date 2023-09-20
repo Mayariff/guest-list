@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useDeferredValue, useState } from "react"
-import { TUserItem } from "../types"
+import { TUser, TUserItem } from "../types"
 import s from "./UsersList.module.scss"
-import { useDeleteVisitor } from "../../visitors"
+import { useAddVisitor, useDeleteVisitor } from "../../visitors"
 import { ModalDelete, ModalUser, SearchInput } from "../../../common"
 import { Link } from "react-router-dom"
 import {
@@ -17,6 +17,7 @@ const UsersList = () => {
   const [addUser] = useAddUserMutation()
   const [deleteUser] = useDeleteUserMutation()
   const [deleteHandler] = useDeleteVisitor()
+  const [addHandler] = useAddVisitor()
 
   //search Input
   const [value, setValue] = useState<string>("")
@@ -40,6 +41,13 @@ const UsersList = () => {
     await deleteUser(id)
     deleteHandler({ id: id })
   }, [id])
+  const addItem = useCallback(
+    async (arg: TUser) => {
+      await addUser(arg)
+      addHandler({ status: "wait_answer", id: arg.id })
+    },
+    [id],
+  )
 
   //modal Add user
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -71,10 +79,18 @@ const UsersList = () => {
 
   return (
     <div className={s.container}>
-      <div className={screen==='vertical'? `${s.sector} ${s.ariaA}`:s.sector }>
+      <div
+        className={screen === "vertical" ? `${s.sector} ${s.ariaA}` : s.sector}
+      >
         <SearchInput value={value} onChangeHandler={onChangeHandler} />
       </div>
-      <div className={screen==='vertical'? `${s.sector} ${s.list} ${s.ariaB}`:`${s.sector} ${s.list}`}>
+      <div
+        className={
+          screen === "vertical"
+            ? `${s.sector} ${s.list} ${s.ariaB}`
+            : `${s.sector} ${s.list}`
+        }
+      >
         <ol className={s.itemList}>
           {data?.ids.length === 0 && (
             <div className={s.noMatches}>Sorry, no matches found</div>
@@ -89,7 +105,9 @@ const UsersList = () => {
           ))}
         </ol>
       </div>
-      <div className={screen==='vertical'? `${s.sector} ${s.ariaC}`:s.sector }>
+      <div
+        className={screen === "vertical" ? `${s.sector} ${s.ariaC}` : s.sector}
+      >
         <div
           style={image}
           className={DragAriaStyle}
@@ -100,7 +118,9 @@ const UsersList = () => {
           Delete User
         </div>
       </div>
-      <div className={screen==='vertical'? `${s.sector} ${s.ariaD}`:s.sector }>
+      <div
+        className={screen === "vertical" ? `${s.sector} ${s.ariaD}` : s.sector}
+      >
         <button onClick={openModal} className={s.btn}>
           +Add User
         </button>
@@ -115,7 +135,7 @@ const UsersList = () => {
       <ModalUser
         closeModal={closeModal}
         showModal={showModal}
-        onSave={addUser}
+        onSave={addItem}
       />
     </div>
   )

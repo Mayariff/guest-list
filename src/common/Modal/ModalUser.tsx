@@ -33,10 +33,8 @@ const ModalUser = memo(
           const arg = {
             id: user?.id ? user?.id : randomId(),
             email: values.email?.trim(),
-            first_name:
-              values?.first_name && transformToCapitalize(values.first_name),
-            last_name:
-              values?.last_name && transformToCapitalize(values.last_name),
+            first_name: transformToCapitalize(values.first_name),
+            last_name: transformToCapitalize(values.last_name),
             avatar: values.avatar?.trim(),
           }
           await onSave(arg)

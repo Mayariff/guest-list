@@ -8,7 +8,7 @@ export const initiateValues = (user?: Partial<TUser>) => ({
 })
 
 export const validate = (values: Partial<TUser>) => {
-  const errors: any = {}
+  const errors= {}
   if (!values.email) {
     errors.email = "Required"
   } else if (
@@ -30,9 +30,7 @@ export const validate = (values: Partial<TUser>) => {
   } else if (values.last_name.length > 15) {
     errors.last_name = "Too long string"
   }
-  if (
-    values.avatar &&
-    !/^https?:\S+.(?:jpe?g|png)$/i.test(values.avatar.trim()) &&
+  if (!/^https?:\S+.(?:jpe?g|png)$/i.test(values.avatar.trim()) &&
     values.avatar.length > 0
   ) {
     errors.avatar = "Example: https://local:3000.jpeg (.jpg/.png)"
