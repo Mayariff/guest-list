@@ -11,7 +11,6 @@ import { ModalDelete, ModalUser } from "../../../common"
 import { useDeleteVisitor } from "../../visitors"
 import { img } from "../../../assets/image"
 
-
 const User = () => {
   const { userID } = useParams()
   const { data, isError, error } = useGetUserQuery(userID)
@@ -35,10 +34,11 @@ const User = () => {
   const [showDelModal, setDelShowModal] = useState<boolean>(false)
   const openDelModal = useCallback(() => setDelShowModal((prev) => true), [])
   const closeDelModal = useCallback(() => setDelShowModal((prev) => false), [])
+
   const deleteItem = useCallback(async () => {
     try {
-      await deleteUser(userID).unwrap()
-      deleteHandler({ id: userID })
+      await deleteUser(userID)
+      deleteHandler({ id: data.id })
     } catch (e) {
       throw Error()
     }

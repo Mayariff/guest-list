@@ -83,33 +83,19 @@
       "first_name": "Rachel",
       "last_name": "Howell",
       "avatar": "https://reqres.in/img/faces/12-image.jpg"
-    },
-    {
-      "id": 32209823,
-      "email": "79027972026@yandex.ru",
-      "first_name": "F",
-      "last_name": "G",
-      "avatar": ""
-    },
-    {
-      "id": 90389456,
-      "email": "maya-mno@yandex.ru",
-      "first_name": "G",
-      "last_name": "F",
-      "avatar": ""
     }
   ],
   "come_event": {
     "come_event": [
-      2,
-      1
+      1,
+      10,
+      4,
+      2
     ]
   },
   "skip_event": {
     "skip_event": [
-      4,
       9,
-      10,
       7
     ]
   },
@@ -119,8 +105,7 @@
       6,
       3,
       8,
-      11,
-      90389456
+      11
     ]
   }
 }

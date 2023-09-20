@@ -38,13 +38,21 @@ const UsersList = () => {
     [],
   )
   const deleteItem = useCallback(async () => {
-    await deleteUser(id)
-    deleteHandler({ id: id })
+    try {
+      await deleteUser(id).unwrap()
+      deleteHandler({ id: id })
+    } catch (e) {
+      throw Error()
+    }
   }, [id])
   const addItem = useCallback(
     async (arg: TUser) => {
-      await addUser(arg)
-      addHandler({ status: "wait_answer", id: arg.id })
+      try {
+        await addUser(arg).unwrap()
+        addHandler({ status: "wait_answer", id: arg.id })
+      } catch (e) {
+        throw Error()
+      }
     },
     [id],
   )

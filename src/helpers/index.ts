@@ -12,12 +12,10 @@ import s from "../features/users/UsersList/UsersList.module.scss"
 export const createTag = (
   res: (object & { id: string | number }) | undefined,
   tagName: string,
-) =>  [{ type: tagName, id: res.id }]
-
+) => [{ type: tagName, id: res.id }]
 
 export const createTags = (res: number[] | string[], tagName: string) => {
   return res.map((el) => ({ type: tagName, id: el }))
-
 }
 
 // styles for DND elements

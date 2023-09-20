@@ -35,8 +35,6 @@ const VisitorsPage = () => {
   const [deleteHandler] = useDeleteVisitor()
   const [addHandler] = useAddVisitor()
 
-
-
   const comeUsers = useSelectedUsers(data.come_event, usersData)
   const skipUsers = useSelectedUsers(data.skip_event, usersData)
   const waitingUsers = useSelectedUsers(data.wait_answer, usersData)
