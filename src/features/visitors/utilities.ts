@@ -1,7 +1,7 @@
-import { Tstatus, TVisitors } from "./types"
+import { status, Tstatus, TVisitors } from "./types"
 
 export const findStatus = (data: TVisitors, id: number): Tstatus => {
-  for (let status in data) {
-    if (data[status].includes(id)) return status
+  for (let _status in data) {
+    if (data[_status].includes(id)) return _status || status.wait
   }
 }

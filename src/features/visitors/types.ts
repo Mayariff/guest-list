@@ -5,6 +5,7 @@ export type TVisitors = {
   skip_event: number[]
   wait_answer: number[]
 }
+
 export enum status {
   visit = "come_event",
   skip = "skip_event",

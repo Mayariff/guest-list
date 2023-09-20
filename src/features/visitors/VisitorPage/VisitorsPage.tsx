@@ -19,7 +19,7 @@ const VisitorsPage = () => {
     isSuccess: isSuccessUsers,
     isError: isErrorInUsers,
     error: errorInUsers,
-  } = useGetUsersQuery()
+  } = useGetUsersQuery("")
 
   const {
     data = { come_event: [], skip_event: [], wait_answer: [] },

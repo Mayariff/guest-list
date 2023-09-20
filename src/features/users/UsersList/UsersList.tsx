@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useDeferredValue, useState } from "react"
 import { TUser, TUserItem } from "../types"
 import s from "./UsersList.module.scss"
-import { useAddVisitor, useDeleteVisitor } from "../../visitors"
+import { status, useAddVisitor, useDeleteVisitor } from "../../visitors"
 import { ModalDelete, ModalUser, SearchInput } from "../../../common"
 import { Link } from "react-router-dom"
 import {
@@ -45,17 +45,14 @@ const UsersList = () => {
       throw Error()
     }
   }, [id])
-  const addItem = useCallback(
-    async (arg: TUser) => {
-      try {
-        await addUser(arg).unwrap()
-        addHandler({ status: "wait_answer", id: arg.id })
-      } catch (e) {
-        throw Error()
-      }
-    },
-    [id],
-  )
+  const addItem = useCallback(async (arg: TUser) => {
+    try {
+      await addUser(arg).unwrap()
+      addHandler({ status: status.wait, id: arg.id })
+    } catch (e) {
+      throw Error()
+    }
+  }, [])
 
   //modal Add user
   const [showModal, setShowModal] = useState<boolean>(false)

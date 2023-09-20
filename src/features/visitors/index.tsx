@@ -1,6 +1,6 @@
 import {
-  useDeleteVisitor,
   useAddVisitor,
+  useDeleteVisitor,
   useSelectedUsers,
 } from "./apiVisitorsHooks"
 import { visitorsApiSlice } from "./visitorsSlice"

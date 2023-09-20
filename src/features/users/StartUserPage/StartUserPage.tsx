@@ -3,7 +3,7 @@ import { ModalUser } from "../../../common"
 import { TUser, useAddUserMutation } from "../index"
 import s from "./StartUserPage.module.scss"
 import { img } from "../../../assets/image"
-import { useAddVisitor } from "../../visitors"
+import { status, useAddVisitor } from "../../visitors"
 
 const StartUserPage = () => {
   const [addUser] = useAddUserMutation()
@@ -15,7 +15,7 @@ const StartUserPage = () => {
   const addItem = useCallback(async (arg: TUser) => {
     try {
       await addUser(arg).unwrap()
-      addHandler({ status: "wait_answer", id: arg.id })
+      addHandler({ status: status.wait, id: arg.id })
     } catch (e) {
       throw Error()
     }
