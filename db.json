@@ -87,7 +87,6 @@
   ],
   "come_event": {
     "come_event": [
-      1,
       10,
       4,
       2
@@ -96,6 +95,7 @@
   "skip_event": {
     "skip_event": [
       9,
+      1,
       7
     ]
   },
