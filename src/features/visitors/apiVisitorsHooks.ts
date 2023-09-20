@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react"
+import { useMemo } from "react"
 import { findStatus } from "./utilities"
 import {
   Tstatus,
@@ -30,28 +30,25 @@ export const useAddVisitor = () => {
   const { data } = useGetVisitorsQuery()
   let res = useChangeVisitorsMutation()
   let [func, rest] = res
-  const addHandler = useCallback(
-    (arg: { status: Tstatus; id: number; index?: number }) => {
-      let newData
-      if (typeof data !== "undefined") {
-        if (arg.index > -1) {
-          newData = [...data[arg.status]]
-          newData.splice(arg.index, 0, Number(arg.id))
-        } else {
-          const set = new Set(data[arg.status])
-          set.add(Number(arg.id))
-          newData = [...set]
-        }
+  const addHandler = (arg: { status: Tstatus; id: number; index?: number }) => {
+    let newData
+    if (typeof data !== "undefined") {
+      if (arg.index > -1) {
+        newData = [...data[arg.status]]
+        newData.splice(arg.index, 0, Number(arg.id))
+      } else {
+        const set = new Set(data[arg.status])
+        set.add(Number(arg.id))
+        newData = [...set]
       }
+    }
 
-      const args = {
-        status: arg.status,
-        data: newData,
-      }
-      return func(args)
-    },
-    [data],
-  )
+    const args = {
+      status: arg.status,
+      data: newData,
+    }
+    return func(args)
+  }
   return [addHandler, rest]
 }
 

@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from "react"
 import { useParams } from "react-router"
 import {
-  TUser,
   useDeleteUserMutation,
   useEditUserMutation,
   useGetUserQuery,
@@ -22,13 +21,6 @@ const User = () => {
   const [showEditModal, setShowEditModal] = useState<boolean>(false)
   const openModal = useCallback(() => setShowEditModal((prev) => true), [])
   const closeModal = useCallback(() => setShowEditModal((prev) => false), [])
- /* const editItem = useCallback(async (u: Partial<TUser>) => {
-    try {
-      await editUser(u).unwrap()
-    } catch (e) {
-      throw Error()
-    }
-  }, [])*/
 
   //Del modal
   const [showDelModal, setDelShowModal] = useState<boolean>(false)

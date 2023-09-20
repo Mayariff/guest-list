@@ -1,4 +1,4 @@
-import React, { memo, MouseEventHandler, useState } from "react";
+import React, { memo, MouseEventHandler, useState } from "react"
 import { createPortal } from "react-dom"
 import s from "./Modal.module.scss"
 import { actionStatus, TDelProps } from "./types"
@@ -21,10 +21,11 @@ const ModalDelete = memo(
           navigate(PATH.users)
         }, 4000)
       } catch (e) {
+        console.log(e)
         setStatus(actionStatus.commonError)
       }
     }
-    const closeHandler:MouseEventHandler<HTMLElement>  = (e) => {
+    const closeHandler: MouseEventHandler<HTMLElement> = (e) => {
       setStatus(null)
       closeModal()
     }

@@ -19,10 +19,10 @@
     min-width: 240px;
   }
 
-  @include animationOpacity();
   @include starDecor();
 
   .content {
+    @include animationOpacity();
     @include gridLayout(start, stretch);
     grid-template-areas:
       "A   B   "
